@@ -70,15 +70,14 @@ app.post("/comparar", upload.fields([{ name: "imagem1" }, { name: "imagem2" }]),
       fs.unlinkSync(img2Path);
 
       const html = `
-  <h2>Resultado:</h2>
-  <img src="/output/diferenca.png?${Date.now()}" width="500" />
-  <p>Total de pontos com diferença: ${coords.length}</p>
-  <p>Exemplo de coordenada com diferença: ${
-    coords.length > 0 ? JSON.stringify(coords[0]) : "Nenhuma diferença significativa"
-  }</p>
-  <div id="coords"></div>
-`;
-res.send(html);
+        <h2>Resultado:</h2>
+        <img src="/output/diferenca.png?${Date.now()}" width="500" />
+        <p>Total de pontos com diferença: ${coords.length}</p>
+        <p>Exemplo de coordenada com diferença: ${coords.length > 0 ? JSON.stringify(coords[0]) : "Nenhuma diferença significativa"
+              }</p>
+        <div id="coords"></div>
+      `;
+      res.send(html);
 
     });
   }
