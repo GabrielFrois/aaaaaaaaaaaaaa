@@ -10,7 +10,7 @@
 
   <div class="container">
     <div class="form-section">
-      <form action="/comparar" method="POST" enctype="multipart/form-data">
+      <form id="form-comparar" enctype="multipart/form-data">
         <label>Imagem original:</label>
         <input type="file" name="imagem1" required />
         <label>Imagem com peça faltando:</label>
@@ -19,16 +19,18 @@
       </form>
     </div>
 
-    <div class="result-section">
-      <h2>Resultado:</h2>
-      <img src="/output/diferenca.png?cachebust=1" width="500" />
-      <div id="coords"><!-- Coordenadas serão exibidas aqui --></div>
-    </div>
+    <div class="result-section" id="result">
+  <h2>Resultado:</h2>
+  <img src="/output/diferenca.png?cachebust=1" width="500" />
+  <div id="coords"></div>
+</div>
+
   </div>
 
   <!-- Novo bloco centralizado abaixo dos quadrados -->
   <div class="bottom-link">
     <a href="/explicacao.html">📘 Ver Explicação Matemática</a>
   </div>
+  <script src="/script.js"></script>
 </body>
 </html>
