@@ -107,3 +107,61 @@ a:hover {
   transition: background 0.3s;
 }
 
+.explicacao {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  line-height: 1.6;
+}
+
+.explicacao h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.explicacao h2 {
+  color: #34495e;
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.explicacao pre {
+  background-color: #f3f3f3;
+  border-left: 4px solid #3498db;
+  padding: 12px;
+  overflow-x: auto;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  margin-top: 10px;
+}
+
+.explicacao ul {
+  padding-left: 20px;
+}
+
+/* Botão voltar fora do quadro */
+.right-link {
+  max-width: 800px;
+  margin: 10px auto 40px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.right-link a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  transition: background 0.3s;
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: bold;
+}
+
+.right-link a:hover {
+  background-color: #d0d7de;
+}
