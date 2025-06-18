@@ -19,12 +19,14 @@ app.post("/comparar", upload.fields([{ name: "imagem1" }, { name: "imagem2" }]),
   const ext1 = path.extname(req.files.imagem1[0].originalname).toLowerCase();
   const ext2 = path.extname(req.files.imagem2[0].originalname).toLowerCase();
 
+  // Verifica extensões
   if (ext1 !== ".png" || ext2 !== ".png") {
     fs.unlinkSync(img1Path);
     fs.unlinkSync(img2Path);
     return res.send("<h2>Erro: As imagens devem estar no formato PNG.</h2><a href='/'>Voltar</a>");
   }
 
+  // Cria os parsers e trata erro se o arquivo não for um PNG válido
   const img1Parser = new PNG();
   const img2Parser = new PNG();
 
@@ -43,6 +45,7 @@ app.post("/comparar", upload.fields([{ name: "imagem1" }, { name: "imagem2" }]),
     console.error("Erro ao processar PNG:", err.message);
     if (fs.existsSync(img1Path)) fs.unlinkSync(img1Path);
     if (fs.existsSync(img2Path)) fs.unlinkSync(img2Path);
+
     res.send(`
       <h2>Erro ao processar o arquivo.</h2>
       <p>Certifique-se de que ambos os arquivos enviados estejam no formato <strong>PNG</strong> e não estejam corrompidos.</p>
@@ -62,8 +65,6 @@ app.post("/comparar", upload.fields([{ name: "imagem1" }, { name: "imagem2" }]),
     const threshold = 50;
     let coords = [];
 
-    let minX = width, maxX = 0, minY = height, maxY = 0;
-
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const idx = (width * y + x) << 2;
@@ -79,44 +80,12 @@ app.post("/comparar", upload.fields([{ name: "imagem1" }, { name: "imagem2" }]),
         const diff = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
 
         if (diff > threshold) {
-          coords.push({ x, y });
-
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-
           img1Parser.data[idx] = 255;
           img1Parser.data[idx + 1] = 0;
           img1Parser.data[idx + 2] = 0;
           img1Parser.data[idx + 3] = 200;
+          coords.push({ x, y });
         }
-      }
-    }
-
-    // Função para pintar pixel preto com segurança
-    const paintBlack = (px, py) => {
-      if (px >= 0 && px < width && py >= 0 && py < height) {
-        const i = (width * py + px) << 2;
-        img1Parser.data[i] = 0;
-        img1Parser.data[i + 1] = 0;
-        img1Parser.data[i + 2] = 0;
-        img1Parser.data[i + 3] = 255;
-      }
-    };
-
-    // 🔧 Ajuste aqui a espessura da borda
-    const borderThickness = 3;
-
-    // Desenhar a borda com espessura configurável
-    for (let i = 0; i < borderThickness; i++) {
-      for (let x = minX - i; x <= maxX + i; x++) {
-        paintBlack(x, minY - i); // topo
-        paintBlack(x, maxY + i); // base
-      }
-      for (let y = minY - i; y <= maxY + i; y++) {
-        paintBlack(minX - i, y); // esquerda
-        paintBlack(maxX + i, y); // direita
       }
     }
 
